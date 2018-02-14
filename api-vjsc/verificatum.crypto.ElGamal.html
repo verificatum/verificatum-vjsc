@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: ElGamal</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: ElGamal</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="verificatum.html">verificatum</a><a href="verificatum.crypto.html">.crypto</a>.</span>ElGamal</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="ElGamal"><span class="type-signature"></span>new ElGamal<span class="signature">(standard, pGroup, random, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    The El Gamal cryptosystem implemented on top of <a href="verificatum.arithm.PGroup.html">verificatum.arithm.PGroup</a>. This is a generalized implementation in
+several ways and eliminates the complexity that plagues other
+implementations by proper abstractions.
+
+<p>
+
+The first generalization allows us to use multiple El Gamal public
+keys in parallel. The second allows us to define and implement the
+Naor-Yung cryptosystem directly from the El Gamal cryptosystem and
+a proof equal exponents (see <a href="verificatum.crypto.ElGamalZKPoK.html">verificatum.crypto.ElGamalZKPoK</a>). The third generalizes the
+cryptosystem to any width of plaintexts, i.e., lists of plaintexts
+or equivalently elements of product groups.
+
+<ul>
+
+<li> The first generalization is captured by letting the underlying
+     group G be of the form G = H^k, where H is a group of prime
+     order q and k > 0 is the key width, and the private key is
+     contained in the ring of exponents R = (Z/qZ)^k of G, where
+     Z/qZ is the field of prime order q.
+
+<li> In the standard cryptosystem the private key is an element x
+     of R, and the public key has the form (g, y), where g is an
+     element of G and y = g^x. In the second generalization we
+     instead allow the public key to be an element ((g, h), y) of
+     (G x G) x G, but still define y = g^x with x in R. Here h can
+     be defined as h = y^z for a random z in R.
+  <p>
+     The standard cryptosystem defines encryption of a message m in
+     G as Enc((g, y), m, r) = (g^r, y^r * m), where r is randomly
+     chosen in R. We generalize encryption by simply setting
+     Enc(((g, h), y), m, r) = ((g^r, h^r), y^r * m). Note that the
+     same exponent r is used for all three exponentiations and that
+     it resides in R.
+  <p>
+     The standard cryptosystem defines decryption of a ciphertext
+     (u, v) by Dec(x, (u, v)) = v / u^x. In the generalized version
+     a decryption is defined by Dec(x, ((u, a), v)) = v / u^x.
+
+<li> We generalize the cryptosystem to allow encryption of
+     plaintexts m of width w contained in G' = G^w, or equivalently
+     lists of plaintexts in G. A simple way to accomplish this with
+     a proper implementation of groups (see <a href="verificatum.arithm.PGroup.html">verificatum.arithm.PGroup</a>) is to simply widen public and
+     secret keys.
+
+     <ol>
+
+     <li> The original secret key is replaced by x' = (x, x,..., x)
+          in R' = R^w.
+
+     <li> A public key (g, y) in G x G is replaced by (g', y'),
+          where y' = (g, g,..., g) and y' = (y, y,..., y) are
+          elements in G'. Thus, the new public key is contained in
+          G' x G'.
+
+     <li> A public key ((g, h), y) in (G x G) x G is replaced by a
+          wider public key ((g', h'), y'), where g', and y' are
+          defined as above and h' is defined accordingly. Thus, the
+          new public key is contained in (G' x G') x G'.
+
+     </ol>
+
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>standard</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Determines if the standard or variant El Gamal
+cryptosystem is used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pGroup</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Group G over which the cryptosystem is defined.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>random</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming that the output of the instance of the random source is
+perfect.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9729">line 9729</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".benchEncrypt"><span class="type-signature">(static) </span>benchEncrypt<span class="signature">(standard, pGroups, maxWidth, minSamples, randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Estimates the running time of encryption in
+milliseconds for various groups and widths.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>standard</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Indicates if the standard or variant scheme is
+used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pGroups</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Groups over which the cryptosystem is defined.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxWidth</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximal width of plaintexts.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>minSamples</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Minimum number of executions performed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming that the output of the instance of the random source is
+perfect.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line10011">line 10011</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array or arrays of estimated running time of encryption in
+milliseconds.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".benchEncryptPGroup"><span class="type-signature">(static) </span>benchEncryptPGroup<span class="signature">(standard, pGroup, maxWidth, minSamples, randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Estimates the running time of encryption in
+milliseconds for various widths.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>standard</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Indicates if the standard or variant scheme is
+used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pGroup</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Group over which the cryptosystem is defined.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxWidth</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximal width of plaintexts.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>minSamples</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Minimum number of executions performed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming that the output of the instance of the random source is
+perfect.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9984">line 9984</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array of estimated running times of encryption in
+milliseconds.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".benchEncryptPGroupWidth"><span class="type-signature">(static) </span>benchEncryptPGroupWidth<span class="signature">(standard, pGroup, width, minSamples, randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Estimates the running time of encryption in
+milliseconds.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>standard</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Indicates if the standard or variant scheme is
+used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pGroup</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Group over which the cryptosystem is defined.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Width of plaintexts.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>minSamples</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Minimum number of executions performed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming that the output of the instance of the random source is
+perfect.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9952">line 9952</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Estimated running time of encryption in milliseconds.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="completeEncrypt"><span class="type-signature"></span>completeEncrypt<span class="signature">(publicKey, ruv, message)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Completes the encryption of a message with the El
+Gamal cryptosystem.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>publicKey</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Public key of the form (g', y'), or ((g', h'), y')
+depending on if the standard or variant scheme is used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ruv</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Triple of the form [r, u, v] or [r, (u, a), v] as output
+by verificatum.crypto.ElGamal.precomputeEncrypt, depending on
+if the standard or variant scheme is used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Message in G' to encrypt (must match group used in
+pre-computation).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9825">line 9825</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Ciphertext of the form (u, v * message) or ((u, a), v *
+message), depending on if the standard or variant scheme is used.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="decrypt"><span class="type-signature"></span>decrypt<span class="signature">(privateKey, ciphertext)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Decrypts an El Gamal ciphertext.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>privateKey</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Private key x' contained in R'.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ciphertext</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Ciphertext (u, v) in G' x G', or ((u, a), v) in
+(G' x G') x G') to be decrypted, depending on if the standard or
+variant scheme is used.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9853">line 9853</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Plaintext computed as v / u^(x').
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="encrypt"><span class="type-signature"></span>encrypt<span class="signature">(publicKey, message, random)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Encrypts a message with the El Gamal cryptosystem.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>publicKey</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Public key.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Message in G' to encrypt.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>random</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Randomness r in R' used for decryption. If this is
+empty, then it is generated.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9839">line 9839</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Ciphertext of the form output by verificatum.crypto.ElGamal.completeEncrypt.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="gen"><span class="type-signature"></span>gen<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Generates a key pair of the El Gamal cryptosystem.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9754">line 9754</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Pair [pk, sk] such that pk is a public key in G x G or in
+(G x G) x G depending on if the standard or variant scheme is used,
+and sk is the corresponding private key contained in R.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="precomputeEncrypt"><span class="type-signature"></span>precomputeEncrypt<span class="signature">(publicKey, random)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Pre-computation for encrypting a message using verificatum.crypto.ElGamal.completeEncrypt.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>publicKey</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Public key of the form (g', y'), or ((g', h'), y')
+depending on if the standard or variant scheme is used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>random</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Randomness r in R' used for encryption. If this is
+empty, then it is generated.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9795">line 9795</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Triple of the form [r, u, v] or [r, (u, a), v], where u =
+(g')^r, a = (h')^r, and v = (y')^r, depending on if the standard or
+variant scheme is used.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="randomnessByteLength"><span class="type-signature"></span>randomnessByteLength<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes the number of random bytes needed to encrypt.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9743">line 9743</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Number of random bytes needed to encrypt.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="widePrivateKey"><span class="type-signature"></span>widePrivateKey<span class="signature">(privateKey, width)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Widens a private key such that a ciphertext resulting
+from the encryption with the correspondingly widened public key can
+be decrypted.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>privateKey</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Original private key.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Width of wider public key.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9929">line 9929</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Public key with the same key width, but with the given
+width.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="widePublicKey"><span class="type-signature"></span>widePublicKey<span class="signature">(publicKey, width)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Widens a public key such that an element from a
+product group of the underlying group can be encrypted.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>publicKey</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Original public key.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Width of wider public key.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9876">line 9876</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Public key with the same key width, but with the given
+width.
+</div>
+
+
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="verificatum.arithm.ec.EC.html">EC</a></li><li><a href="verificatum.arithm.ec.ECP.html">ECP</a></li><li><a href="verificatum.arithm.ECqPGroup.html">ECqPGroup</a></li><li><a href="verificatum.arithm.ECqPGroupElement.html">ECqPGroupElement</a></li><li><a href="verificatum.arithm.ExpHom.html">ExpHom</a></li><li><a href="verificatum.arithm.FixModPow.html">FixModPow</a></li><li><a href="verificatum.arithm.Hom.html">Hom</a></li><li><a href="verificatum.arithm.LargeInteger.html">LargeInteger</a></li><li><a href="verificatum.arithm.ModPGroup.html">ModPGroup</a></li><li><a href="verificatum.arithm.ModPGroupElement.html">ModPGroupElement</a></li><li><a href="verificatum.arithm.ModPowProd.html">ModPowProd</a></li><li><a href="verificatum.arithm.modpowprod_.html">modpowprod</a></li><li><a href="verificatum.arithm.modpowprodtab.html">modpowprodtab</a></li><li><a href="verificatum.arithm.PField.html">PField</a></li><li><a href="verificatum.arithm.PFieldElement.html">PFieldElement</a></li><li><a href="verificatum.arithm.PGroup.html">PGroup</a></li><li><a href="verificatum.arithm.PGroupElement.html">PGroupElement</a></li><li><a href="verificatum.arithm.PPGroup.html">PPGroup</a></li><li><a href="verificatum.arithm.PPGroupElement.html">PPGroupElement</a></li><li><a href="verificatum.arithm.PPRing.html">PPRing</a></li><li><a href="verificatum.arithm.PPRingElement.html">PPRingElement</a></li><li><a href="verificatum.arithm.PRing.html">PRing</a></li><li><a href="verificatum.arithm.PRingElement.html">PRingElement</a></li><li><a href="verificatum.arithm.sli.SLI.html">SLI</a></li><li><a href="verificatum.crypto.ArithmObject.html">ArithmObject</a></li><li><a href="verificatum.crypto.ElGamal.html">ElGamal</a></li><li><a href="verificatum.crypto.ElGamalZKPoK.html">ElGamalZKPoK</a></li><li><a href="verificatum.crypto.ElGamalZKPoKAdapter.html">ElGamalZKPoKAdapter</a></li><li><a href="verificatum.crypto.ElGamalZKPoKWriteIn.html">ElGamalZKPoKWriteIn</a></li><li><a href="verificatum.crypto.RandomDevice.html">RandomDevice</a></li><li><a href="verificatum.crypto.RandomSource.html">RandomSource</a></li><li><a href="verificatum.crypto.SchnorrProof.html">SchnorrProof</a></li><li><a href="verificatum.crypto.SHA256PRG.html">SHA256PRG</a></li><li><a href="verificatum.crypto.SigmaProof.html">SigmaProof</a></li><li><a href="verificatum.crypto.SigmaProofAnd.html">SigmaProofAnd</a></li><li><a href="verificatum.crypto.SigmaProofOr.html">SigmaProofOr</a></li><li><a href="verificatum.crypto.SigmaProofPara.html">SigmaProofPara</a></li><li><a href="verificatum.crypto.ZKPoK.html">ZKPoK</a></li><li><a href="verificatum.crypto.ZKPoKWriteIn.html">ZKPoKWriteIn</a></li><li><a href="verificatum.crypto.ZKPoKWriteInAdapter.html">ZKPoKWriteInAdapter</a></li><li><a href="verificatum.eio.ByteTree.html">ByteTree</a></li></ul><h3>Namespaces</h3><ul><li><a href="benchmark.html">benchmark</a></li><li><a href="verificatum.html">verificatum</a></li><li><a href="verificatum.arithm.html">arithm</a></li><li><a href="verificatum.arithm.ec.html">ec</a></li><li><a href="verificatum.arithm.li.html">li</a></li><li><a href="verificatum.arithm.sli.html">sli</a></li><li><a href="verificatum.crypto.html">crypto</a></li><li><a href="verificatum.eio.html">eio</a></li><li><a href="verificatum.util.html">util</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Feb 14 2018 03:00:24 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

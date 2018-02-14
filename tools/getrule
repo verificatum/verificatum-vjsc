@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# Copyright 2008-2018 Douglas Wikstrom
+#
+# This file is part of Verificatum JavaScript Cryptographic library
+# (VJSC).
+#
+# VJSC is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# VJSC is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General
+# Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
+
+SCRIPTPATH=$(readlink -f "$0")
+SCRIPTDIR=$(dirname "$SCRIPTPATH")
+
+ROOT=${1}
+FILE=${2}
+ENABLEFILE=${3}
+COMMONFILE=${4}
+LEAFFILE=${5}
+NODEFILE=${6}
+
+# Extract the dependencies for the file.
+DFSN=`cat ${ROOT}/${FILE} | grep -E M4_NEEDS | sed "s/M4_NEEDS(//" | sed "s/)dnl//"`
+DFSI=`cat ${ROOT}/${FILE} | grep -E M4_INCLUDEOPT | sed "s/M4_INCLUDEOPT(//" | sed "s/)dnl//"`
+DFST=`echo "${DFSN} ${DFSI}" | sed "s/^\s*//"`
+
+classname() {
+    STRING=`echo "$2" | sed "s/\//\./g" | sed "s/\.js//" | sed "s/\\(\\S\\S*\\.\\)*//" | sed "s/.*_named_//"`
+    eval "$1=\"\$STRING\""
+}
+
+DFS=""
+for DFT in ${DFST};
+do
+    classname DF ${DFT}
+    DFS="${DFS} ${DF}"
+done
+DFS=`echo "${DFS}" | tr " " "\n" | sort | tr "\n" " " | sed -e "s/^[[:space:]]*//"`
+
+# Generate a Makefile rule.
+
+classname TARGET ${FILE}
+
+ENABLESTRING="@./tools/enable ${FILE} ${ENABLEFILE}"
+
+PATTERN="\\(\\(test_verificatum\\)\\|\\(arithm\\)\\|\\(test_arithm\\)\\|\\(crypto\\)\\|\\(test_crypto\\)\\|\\(ECqPGroup\\)\\|\\(curves\\)\\|\\(ECqPGroup\\)\\|\\(groups\\)\\)"
+
+if test x"${DFS}" = x;
+then
+    printf "%s:+" ${TARGET} >> ${LEAFFILE}
+    printf "\t${ENABLESTRING}\n" >> ${LEAFFILE}
+else
+    MATCH_LEN=`printf ${TARGET} | sed "s/${PATTERN}.*//" | wc -c`
+    if test ${MATCH_LEN} = 0;
+    then
+        FILE=${COMMONFILE}
+    else
+        FILE=${NODEFILE}
+    fi
+    printf "%s:" ${TARGET} >> ${FILE}
+    for DF in ${DFS};
+    do
+        printf " %s" ${DF} >> ${FILE}
+    done
+    printf "+\t${ENABLESTRING}\n" >> ${FILE}
+fi
+

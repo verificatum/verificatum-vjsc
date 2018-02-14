@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: EC</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: EC</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="verificatum.html">verificatum</a><a href="verificatum.arithm.html">.arithm</a><a href="verificatum.arithm.ec.html">.ec</a>.</span>EC</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="EC"><span class="type-signature"></span>new EC<span class="signature">(modulus, a, b, n)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Raw container class for elliptic curves.
+
+<p>
+
+ASSUMES: 0 <= a, b, gx, gy < modulus, n > 0, and x^3 + b * x + a
+(mod modulus) is a non-singular curve of order n.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>modulus</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Modulus for underlying field.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">First coefficient for curve of Weierstrass normal form.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Second coefficientfor curve of Weierstrass normal form.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Order of elliptic curve.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6411">line 6411</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="affine"><span class="type-signature"></span>affine<span class="signature">(A)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Changes the representation of the point to canonical
+coordinates, i.e. the unique representation where z is 1 and (x,y)
+is the corresponding affine point. The exception is the point at
+infinity which is left unchanged.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>A</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Point to affine.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6465">line 6465</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="equals"><span class="type-signature"></span>equals<span class="signature">(A, B)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Compares A and B.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>A</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Left point on curve.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>B</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Right point on curve.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6477">line 6477</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    true or false depending on if A and B represent the same
+point on the curve or not.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="jadd"><span class="type-signature"></span>jadd<span class="signature">(A, B, C)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets A = B + C.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>A</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Holder of result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>B</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Point on curve.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>C</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Point on curve.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6537">line 6537</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="jdbl"><span class="type-signature"></span>jdbl<span class="signature">(A, B)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets A = 2 * B.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>A</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Holder of result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>B</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Point on curve.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6547">line 6547</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="jmul"><span class="type-signature"></span>jmul<span class="signature">(A, B, e)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets A = e * B.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>A</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Holder of result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>B</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Point on curve.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Scalar.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6558">line 6558</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="neg"><span class="type-signature"></span>neg<span class="signature">(A, B)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets A = -B.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>A</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Holder of result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>B</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Point on curve.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6515">line 6515</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="set"><span class="type-signature"></span>set<span class="signature">(A, B)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets A = B.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>A</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Holder of result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>B</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Point on curve.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6491">line 6491</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setzero"><span class="type-signature"></span>setzero<span class="signature">(A)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets A = O, where O is the unit element of the
+elliptic curve.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>A</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Holder of result.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line6503">line 6503</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="verificatum.arithm.ec.EC.html">EC</a></li><li><a href="verificatum.arithm.ec.ECP.html">ECP</a></li><li><a href="verificatum.arithm.ECqPGroup.html">ECqPGroup</a></li><li><a href="verificatum.arithm.ECqPGroupElement.html">ECqPGroupElement</a></li><li><a href="verificatum.arithm.ExpHom.html">ExpHom</a></li><li><a href="verificatum.arithm.FixModPow.html">FixModPow</a></li><li><a href="verificatum.arithm.Hom.html">Hom</a></li><li><a href="verificatum.arithm.LargeInteger.html">LargeInteger</a></li><li><a href="verificatum.arithm.ModPGroup.html">ModPGroup</a></li><li><a href="verificatum.arithm.ModPGroupElement.html">ModPGroupElement</a></li><li><a href="verificatum.arithm.ModPowProd.html">ModPowProd</a></li><li><a href="verificatum.arithm.modpowprod_.html">modpowprod</a></li><li><a href="verificatum.arithm.modpowprodtab.html">modpowprodtab</a></li><li><a href="verificatum.arithm.PField.html">PField</a></li><li><a href="verificatum.arithm.PFieldElement.html">PFieldElement</a></li><li><a href="verificatum.arithm.PGroup.html">PGroup</a></li><li><a href="verificatum.arithm.PGroupElement.html">PGroupElement</a></li><li><a href="verificatum.arithm.PPGroup.html">PPGroup</a></li><li><a href="verificatum.arithm.PPGroupElement.html">PPGroupElement</a></li><li><a href="verificatum.arithm.PPRing.html">PPRing</a></li><li><a href="verificatum.arithm.PPRingElement.html">PPRingElement</a></li><li><a href="verificatum.arithm.PRing.html">PRing</a></li><li><a href="verificatum.arithm.PRingElement.html">PRingElement</a></li><li><a href="verificatum.arithm.sli.SLI.html">SLI</a></li><li><a href="verificatum.crypto.ArithmObject.html">ArithmObject</a></li><li><a href="verificatum.crypto.ElGamal.html">ElGamal</a></li><li><a href="verificatum.crypto.ElGamalZKPoK.html">ElGamalZKPoK</a></li><li><a href="verificatum.crypto.ElGamalZKPoKAdapter.html">ElGamalZKPoKAdapter</a></li><li><a href="verificatum.crypto.ElGamalZKPoKWriteIn.html">ElGamalZKPoKWriteIn</a></li><li><a href="verificatum.crypto.RandomDevice.html">RandomDevice</a></li><li><a href="verificatum.crypto.RandomSource.html">RandomSource</a></li><li><a href="verificatum.crypto.SchnorrProof.html">SchnorrProof</a></li><li><a href="verificatum.crypto.SHA256PRG.html">SHA256PRG</a></li><li><a href="verificatum.crypto.SigmaProof.html">SigmaProof</a></li><li><a href="verificatum.crypto.SigmaProofAnd.html">SigmaProofAnd</a></li><li><a href="verificatum.crypto.SigmaProofOr.html">SigmaProofOr</a></li><li><a href="verificatum.crypto.SigmaProofPara.html">SigmaProofPara</a></li><li><a href="verificatum.crypto.ZKPoK.html">ZKPoK</a></li><li><a href="verificatum.crypto.ZKPoKWriteIn.html">ZKPoKWriteIn</a></li><li><a href="verificatum.crypto.ZKPoKWriteInAdapter.html">ZKPoKWriteInAdapter</a></li><li><a href="verificatum.eio.ByteTree.html">ByteTree</a></li></ul><h3>Namespaces</h3><ul><li><a href="benchmark.html">benchmark</a></li><li><a href="verificatum.html">verificatum</a></li><li><a href="verificatum.arithm.html">arithm</a></li><li><a href="verificatum.arithm.ec.html">ec</a></li><li><a href="verificatum.arithm.li.html">li</a></li><li><a href="verificatum.arithm.sli.html">sli</a></li><li><a href="verificatum.crypto.html">crypto</a></li><li><a href="verificatum.eio.html">eio</a></li><li><a href="verificatum.util.html">util</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Feb 14 2018 03:00:24 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

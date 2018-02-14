@@ -1,0 +1,3228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: SigmaProofOr</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: SigmaProofOr</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="verificatum.html">verificatum</a><a href="verificatum.crypto.html">.crypto</a>.</span>SigmaProofOr</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="SigmaProofOr"><span class="type-signature"></span>new SigmaProofOr<span class="signature">(challengeSpace, param, copies)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Let R be an NP relation for which there is a Sigma
+proof (P, V), let c > 0 be an integer, and define the NP relation
+R(c) to consist of all pairs of the form (x, (w, i)) such that
+(x[i], w) is contained in R for some 0 <= i < c. This class gives a
+Sigma proof for R(c) provided that:
+
+<ol>
+
+<li> The challenge space of V is a finite additive group, i.e.,
+     challenges implement add() and sub() for addition and
+     subtraction, and toByteTree().
+
+<li> The challenge is uniquely determined by the proof commitment
+     and the reply. It may suffice that it is infeasible to find
+     two distinct challenges that give accepting transcripts, but
+     great care is needed.
+
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>challengeSpace</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Space of challenges. This must implement a
+method toElement() that converts a byte tree to a challenge.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of proofs in which case the second parameter
+must not be used, or a single sigma proof in which case the second
+parameter must be a positive integer.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>copies</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number of copies in case the first parameter is a
+single sigma proof.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9395">line 9395</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="verificatum.crypto.SigmaProofPara.html">verificatum.crypto.SigmaProofPara</a></li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="byteTreeToCommitment"><span class="type-signature"></span>byteTreeToCommitment<span class="signature">(byteTree)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a byte tree to a commitment.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>byteTree</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Byte tree representation of a commitment.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProof.html#byteTreeToCommitment">verificatum.crypto.SigmaProof#byteTreeToCommitment</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9028">line 9028</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Commitment.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="byteTreeToReply"><span class="type-signature"></span>byteTreeToReply<span class="signature">(byteTree)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a byte tree to a reply.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>byteTree</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Byte tree representation of a reply.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProofPara.html#byteTreeToReply">verificatum.crypto.SigmaProofPara#byteTreeToReply</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9080">line 9080</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Reply.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="challenge"><span class="type-signature"></span>challenge<span class="signature">(first, second)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes the challenge of the verifier using either a
+source of randomness or by applying the Fiat-Shamir heuristic to a
+byte tree using a given hash function.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>first</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness, or data to be hashed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>second</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming a perfect random source, or a hash function used to
+implement the Fiat-Shamir heuristic.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProof.html#challenge">verificatum.crypto.SigmaProof#challenge</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9044">line 9044</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Challenge of the verifier.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="check"><span class="type-signature"></span>check<span class="signature">(instance, commitment, challenge, witness, reply)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes the verdict of the verifier on a transcript.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>commitment</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Commitment.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>challenge</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Challenge of the prover.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>witness</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Witness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>reply</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Reply.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProofPara.html#check">verificatum.crypto.SigmaProofPara#check</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9095">line 9095</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Verdict of the verifier as a boolean.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="commit"><span class="type-signature"></span>commit<span class="signature">(precomputed, instance, witness, randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes a pair of updated pre-computed values and a
+commitment.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>precomputed</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Pre-computed values.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>witness</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Witness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming a perfect random source.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProofPara.html#commit">verificatum.crypto.SigmaProofPara#commit</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9005">line 9005</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Pair of updated pre-computed values and a commitment.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="commitmentToByteTree"><span class="type-signature"></span>commitmentToByteTree<span class="signature">(commitment)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a commitment to a byte tree.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>commitment</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Commitment.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProof.html#commitmentToByteTree">verificatum.crypto.SigmaProof#commitmentToByteTree</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9017">line 9017</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Byte tree representation of the commitment.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="completeProof"><span class="type-signature"></span>completeProof<span class="signature">(precomputed, label, instance, witness, hashfunction, randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Completes a proof using pre-computed values.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>precomputed</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Pre-computed values.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>label</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Label as an array of bytes or byte tree.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>witness</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Witness of instance belonging to the right language.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>hashfunction</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Hash function used to implement the random
+oracle.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming a perfect random source.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.ZKPoK.html#completeProof">verificatum.crypto.ZKPoK#completeProof</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line8887">line 8887</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Proof in the form of a byte array.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="instanceToByteTree"><span class="type-signature"></span>instanceToByteTree<span class="signature">(instance)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts an instance to a byte tree.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProof.html#instanceToByteTree">verificatum.crypto.SigmaProof#instanceToByteTree</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line8988">line 8988</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Byte tree representation of the instance.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="precompute"><span class="type-signature"></span>precompute<span class="signature">(randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Performs pre-computation.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming a perfect random source.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.ZKPoK.html#precompute">verificatum.crypto.ZKPoK#precompute</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line8841">line 8841</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Pre-computed values.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="precomputeRequiresInstance"><span class="type-signature"></span>precomputeRequiresInstance<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Indicates if pre-computation requires the
+instance. This allows choosing the right pre-computation function.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProofPara.html#precomputeRequiresInstance">verificatum.crypto.SigmaProofPara#precomputeRequiresInstance</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line8852">line 8852</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True or false depending on if pre-computation requires the
+instance or not.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="precomputeWithInstance"><span class="type-signature"></span>precomputeWithInstance<span class="signature">(instance, randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Performs pre-computation when the instance is needed.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming a perfect random source.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProofPara.html#precomputeWithInstance">verificatum.crypto.SigmaProofPara#precomputeWithInstance</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line8866">line 8866</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Pre-computed values.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="prove"><span class="type-signature"></span>prove<span class="signature">(label, instance, witness, hashfunction, randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes a proof.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>label</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Label as an array of bytes or byte tree.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>witness</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Witness of instance belonging to the right language.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>hashfunction</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Hash function used to implement the random
+oracle.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming a perfect random source.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.ZKPoK.html#prove">verificatum.crypto.ZKPoK#prove</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line8927">line 8927</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Proof in the form of a byte array.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="randomnessByteLength"><span class="type-signature"></span>randomnessByteLength<span class="signature">(statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Number of bytes or randomness needed to compute a proof.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming a perfect random source.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.ZKPoK.html#randomnessByteLength">verificatum.crypto.ZKPoK#randomnessByteLength</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line8828">line 8828</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Number of bytes needed to compute a proof.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="reply"><span class="type-signature"></span>reply<span class="signature">(precomputed, witness, challenge, randomness)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes the reply of the prover.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>precomputed</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Pre-computed values needed to compute the reply.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>witness</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Witness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>challenge</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Challenge of the verifier.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomness</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Randomness used to form the commitment.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProofPara.html#reply">verificatum.crypto.SigmaProofPara#reply</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9058">line 9058</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Reply of the prover.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="replyToByteTree"><span class="type-signature"></span>replyToByteTree<span class="signature">(reply)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a reply to a byte tree.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>reply</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Reply.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProofPara.html#replyToByteTree">verificatum.crypto.SigmaProofPara#replyToByteTree</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9069">line 9069</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Byte tree representation of the reply.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="simulate"><span class="type-signature"></span>simulate<span class="signature">(instance, challenge, randomSource, statDist)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Simulates a commitment and reply for the given
+challenge.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>challenge</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Challenge of the verifier.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>randomSource</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Source of randomness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>statDist</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Statistical distance from the uniform distribution
+assuming a perfect random source.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="verificatum.crypto.SigmaProofPara.html#simulate">verificatum.crypto.SigmaProofPara#simulate</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line9111">line 9111</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Pair of a commitment and reply.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="verify"><span class="type-signature"></span>verify<span class="signature">(label, instance, hashfunction, proof)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Verifies a proof. This is meant to be used for
+debugging, so the granularity in error handling is rudimentary.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>label</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Label as an array of bytes or byte tree.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>hashfunction</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Hash function used to implement the random
+oracle.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>proof</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Candidate proof in the form of a byte array.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="verificatum.crypto.ZKPoK.html#verify">verificatum.crypto.ZKPoK#verify</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line8907">line 8907</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True or false depending on if the candidate proof is valid
+or not.
+</div>
+
+
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="verificatum.arithm.ec.EC.html">EC</a></li><li><a href="verificatum.arithm.ec.ECP.html">ECP</a></li><li><a href="verificatum.arithm.ECqPGroup.html">ECqPGroup</a></li><li><a href="verificatum.arithm.ECqPGroupElement.html">ECqPGroupElement</a></li><li><a href="verificatum.arithm.ExpHom.html">ExpHom</a></li><li><a href="verificatum.arithm.FixModPow.html">FixModPow</a></li><li><a href="verificatum.arithm.Hom.html">Hom</a></li><li><a href="verificatum.arithm.LargeInteger.html">LargeInteger</a></li><li><a href="verificatum.arithm.ModPGroup.html">ModPGroup</a></li><li><a href="verificatum.arithm.ModPGroupElement.html">ModPGroupElement</a></li><li><a href="verificatum.arithm.ModPowProd.html">ModPowProd</a></li><li><a href="verificatum.arithm.modpowprod_.html">modpowprod</a></li><li><a href="verificatum.arithm.modpowprodtab.html">modpowprodtab</a></li><li><a href="verificatum.arithm.PField.html">PField</a></li><li><a href="verificatum.arithm.PFieldElement.html">PFieldElement</a></li><li><a href="verificatum.arithm.PGroup.html">PGroup</a></li><li><a href="verificatum.arithm.PGroupElement.html">PGroupElement</a></li><li><a href="verificatum.arithm.PPGroup.html">PPGroup</a></li><li><a href="verificatum.arithm.PPGroupElement.html">PPGroupElement</a></li><li><a href="verificatum.arithm.PPRing.html">PPRing</a></li><li><a href="verificatum.arithm.PPRingElement.html">PPRingElement</a></li><li><a href="verificatum.arithm.PRing.html">PRing</a></li><li><a href="verificatum.arithm.PRingElement.html">PRingElement</a></li><li><a href="verificatum.arithm.sli.SLI.html">SLI</a></li><li><a href="verificatum.crypto.ArithmObject.html">ArithmObject</a></li><li><a href="verificatum.crypto.ElGamal.html">ElGamal</a></li><li><a href="verificatum.crypto.ElGamalZKPoK.html">ElGamalZKPoK</a></li><li><a href="verificatum.crypto.ElGamalZKPoKAdapter.html">ElGamalZKPoKAdapter</a></li><li><a href="verificatum.crypto.ElGamalZKPoKWriteIn.html">ElGamalZKPoKWriteIn</a></li><li><a href="verificatum.crypto.RandomDevice.html">RandomDevice</a></li><li><a href="verificatum.crypto.RandomSource.html">RandomSource</a></li><li><a href="verificatum.crypto.SchnorrProof.html">SchnorrProof</a></li><li><a href="verificatum.crypto.SHA256PRG.html">SHA256PRG</a></li><li><a href="verificatum.crypto.SigmaProof.html">SigmaProof</a></li><li><a href="verificatum.crypto.SigmaProofAnd.html">SigmaProofAnd</a></li><li><a href="verificatum.crypto.SigmaProofOr.html">SigmaProofOr</a></li><li><a href="verificatum.crypto.SigmaProofPara.html">SigmaProofPara</a></li><li><a href="verificatum.crypto.ZKPoK.html">ZKPoK</a></li><li><a href="verificatum.crypto.ZKPoKWriteIn.html">ZKPoKWriteIn</a></li><li><a href="verificatum.crypto.ZKPoKWriteInAdapter.html">ZKPoKWriteInAdapter</a></li><li><a href="verificatum.eio.ByteTree.html">ByteTree</a></li></ul><h3>Namespaces</h3><ul><li><a href="benchmark.html">benchmark</a></li><li><a href="verificatum.html">verificatum</a></li><li><a href="verificatum.arithm.html">arithm</a></li><li><a href="verificatum.arithm.ec.html">ec</a></li><li><a href="verificatum.arithm.li.html">li</a></li><li><a href="verificatum.arithm.sli.html">sli</a></li><li><a href="verificatum.crypto.html">crypto</a></li><li><a href="verificatum.eio.html">eio</a></li><li><a href="verificatum.util.html">util</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Feb 14 2018 03:00:24 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

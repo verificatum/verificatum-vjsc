@@ -1,0 +1,11 @@
+
+
+                          NOTES
+
+The code for the benchmarks in this directory can be used as a
+starting point to create a client by following the function calls into
+the library.
+
+However, please note that this code is not robust and can not simply
+be used in slightly modified form. The message passing routines do not
+verify the transfered data properly and there is no error handling.

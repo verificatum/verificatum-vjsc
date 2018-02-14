@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# Copyright 2008-2018 Douglas Wikstrom
+#
+# This file is part of Verificatum JavaScript Cryptographic library
+# (VJSC).
+#
+# VJSC is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# VJSC is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General
+# Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
+
+# Compiles multiple fragments of JavaScript code into a single file
+# using M4 macros. Redundant copyright headers are removed and the
+# file is reformatted and indented.
+
+SCRIPTPATH=$(readlink -f "$0")
+SCRIPTDIR=$(dirname "$SCRIPTPATH")
+
+TMP_DIR=${1}
+M4FILTER=${2}
+HEADER=${3}
+JSSRC=${4}
+INPUTS="${5}"
+OUTPUT=${6}
+
+if test ${1} = "-h";
+then
+
+    printf "Usage:\n"
+    printf "${0} <tmp dir> <header> <js source dir> <inputs> <output>\n\n"
+
+else
+
+    # Make temporary directory.
+    mkdir -p ${TMP_DIR}/${OUTPUT%/*}
+
+    # Combine all necessary files using M4 into a single file and
+    # apply M4 macros.
+    cat ${M4FILTER} "${INPUTS}" | m4 > ${TMP_DIR}/${OUTPUT}_headers
+
+    # Strip all license headers and replace them by a single license
+    # header at the top of the compiled file.
+
+    # Remove all headers, kill spurious new lines, and add proper newlines.
+    HEADER_STRING=`cat ${JSSRC}/AGPL_3.0_HEADER.js | tr "\n" "\f" | sed "s/\f/\\\\f/g"`
+    cat ${TMP_DIR}/${OUTPUT}_headers \
+| sed "s/^\s*//g" \
+| tr "\n" "\f" \
+| sed "s/^\f\f*//" \
+| sed "s|${HEADER_STRING}||g" \
+| sed "s/\f\f\f*/\f\f/g" \
+| sed "s|\(\f\f// #*\f//\)|\f\1|g" \
+| sed "s/,\s\s*}/\f}/g" \
+| tr "\f" "\n" > ${TMP_DIR}/${OUTPUT}_no_headers
+
+    # Put back a single header at the top.
+    cat ${HEADER} ${TMP_DIR}/${OUTPUT}_no_headers > ${TMP_DIR}/${OUTPUT}_header
+
+    # Indent file in place.
+    ${SCRIPTDIR}/indent-file ${TMP_DIR}/${OUTPUT}_header
+
+    # Use this file as it is with indentation and comments.
+    cp ${TMP_DIR}/${OUTPUT}_header ${OUTPUT}
+
+    # Clean up temporary files.
+    rm -rf ${TMP_DIR}
+fi

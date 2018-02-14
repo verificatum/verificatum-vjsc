@@ -1,0 +1,57 @@
+#!/bin/sh
+
+# Copyright 2008-2018 Douglas Wikstrom
+#
+# This file is part of Verificatum JavaScript Cryptographic library
+# (VJSC).
+#
+# VJSC is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# VJSC is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General
+# Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
+
+# Recursively expands all dependencies of the files in the root
+# directory.
+
+SCRIPTPATH=$(readlink -f "$0")
+SCRIPTDIR=$(dirname "$SCRIPTPATH")
+
+TMP_DIR=${1}
+ROOT=${2}
+NEEDS=${3}
+
+GET_DIR=${TMP_DIR}/getneeds
+mkdir -p ${GET_DIR}
+EXP_DIR=${TMP_DIR}/expandneeds
+mkdir -p ${EXP_DIR}
+
+# Start with all files.
+rm -f ${GET_DIR}/newneeds
+touch ${GET_DIR}/newneeds
+find ${ROOT} | grep "\.js" | sed "s|${ROOT}/||" > ${GET_DIR}/oldneeds
+
+# Expand.
+DIFF=1
+while !( test ${DIFF} = 0 );
+do
+    ${SCRIPTDIR}/expandneeds ${EXP_DIR} ${ROOT} ${GET_DIR}/oldneeds ${GET_DIR}/newneeds
+
+    # Swap oldneeds and newneeds
+    mv ${GET_DIR}/oldneeds ${GET_DIR}/tmpneeds
+    mv ${GET_DIR}/newneeds ${GET_DIR}/oldneeds
+    mv ${GET_DIR}/tmpneeds ${GET_DIR}/newneeds
+
+    DIFF=`diff ${GET_DIR}/newneeds ${GET_DIR}/oldneeds | wc -l`
+done
+
+mv ${GET_DIR}/oldneeds ${NEEDS}
+
+rm -rf ${GET_DIR} ${EXP_DIR}

@@ -1,0 +1,5944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Namespace: li</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Namespace: li</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="verificatum.html">verificatum</a><a href="verificatum.arithm.html">.arithm</a>.</span>li</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Utility classes and functions.
+
+<p>
+
+Provides the core large integer arithmetic routines needed to
+implement multiplicative groups and elliptic curve groups over
+prime order fields. No additional functionality is provided.
+Although the main goal of this module is to be well-documented and
+clearly structured with proper encapsulation and without hidden
+assumptions, this is quite hard in a few routines.
+
+<p>
+
+WARNING! This module must be used with care due to the assumptions
+made by routines on inputs, but these assumptions are stated
+explicitly for each function, so the code is easy to follow.
+
+<p>
+
+Integers are represented as arrays of numbers constrained to
+WORDSIZE bits, where WORDSIZE is any even number between 4 and 30
+and there are hardcoded constants derived from this when the script
+is generated, so do not attempt to change the wordsize in the
+generated code. These wordsizes are natural since JavaScript only
+allows bit operations on 32-bit signed integers. To see this, note
+that although we can do arithmetic on floating point numbers, e.g.,
+by setting WORDSIZE = 24 we could do multiplications directly, it
+is expensive to recover parts of the result. Bit operations on
+32-bit integers are provided in Javascript, but they are
+implemented on top of the native "number" datatype, i.e., numbers
+are cast to 32-bit signed integers, the bit operation is applied,
+and the result is cast back to a "number".
+
+<p>
+
+Using small wordsizes exposes certain types of arithmetic bugs, so
+providing this is not merely for educational purposes, it is also
+to lower the risk of structural bugs.
+
+<p>
+
+Functions are only implemented for unsigned integers and when
+called from external functions they assume that any result
+parameter is of a given length. All arithmetic functions guarantee
+that any leading unused words are set to zero.
+
+<p>
+
+A "limb" is an element of an array that may or may not store any
+single-precision integer. A word is a limb containing data, which
+may be zero if there are limbs at higher indices holding
+data. Thus, the number of limbs is the length of an array and the
+number of words is the index of the most significant word in the
+array plus one.
+
+<p>
+
+The workhorse routine is muladd_loop() which is generated for a
+given fixed wordsize. This routine determines the speed of
+multiplication and squaring. To a large extent it also determines
+the speed of division, but here div3by2() also plays an important
+role. These routines are generated from M4 macro code to allow
+using hard coded wordsize dependent constants for increased
+speed. The square_naive() routine also contains some generated
+code.
+
+<p>
+
+JavaScript is inherently difficult to optimize, since the
+JavaScript engines are moving targets, but it seems that the
+built-in arrays in Javascript are faster than the new typed arrays
+if they are handled properly. A first version of the library was
+based on Uint32Array for which, e.g., allocation of a fixed-size
+array is slower than a builtin array.
+
+<p>
+
+One notable observation is that it sometimes makes sense to inform
+the interpreter that a JavaScript "number" / float is really a
+32-bit integer by saying, e.g., (x | 0) even if we are guaranteed
+that x is a 32-bit integer. This is important when accessing
+elements from arrays and it seems to prevent the interpreter from
+converting to and from floats.
+
+<p>
+
+We avoid dynamic memory allocation almost entirely by keeping
+scratch space as static variables of the functions. This is
+implemented using immediate function evaluation in JavaScript, but
+it is encapsulated to reduce complexity, i.e., calling functions
+remain unaware of this. This approach works well in our
+applications, since higher level routines work with integers of
+fixed bit length;
+
+<p>
+
+<a href="http://cacr.uwaterloo.ca/hac">Handbook of Cryptography
+(HAC), Alfred J. Menezes, Paul C. van Oorschot and Scott
+A. Vanstone</a> gives a straightforward introduction to the basic
+algorithms used and we try to follow their notation for easy
+reference. Division exploits the techniques of <a
+href="https://gmplib.org/~tege/division-paper.pdf">Improved
+division by invariant integers, Niels Moller and Torbjorn Granlund
+(MG)</a>. This is needed to implement div3by2() efficiently.
+
+<p>
+
+<table style="text-align: left;">
+<tr><th>Reference        </th><th> Operation</th><th> Comment</th></tr>
+<tr><td>HAC 14.7.        </td><td> Addition</td><td></td></tr>
+<tr><td>HAC 14.9.        </td><td> Subtraction</td><td></td></tr>
+<tr><td>HAC 14.12.       </td><td> Multiplication</td><td> Uses Karatsuba.</td></tr>
+<tr><td>HAC 14.16.       </td><td> Squaring</td><td> Uses Karatsuba.</td></tr>
+<tr><td>HAC 14.20 and MG.</td><td> Division.</td><td> Uses reciprocals for invariant moduli.</td></tr>
+<tr><td>HAC 14.83.       </td><td> Modular exponentiation</td><td> Left-to-right k-ary.</td></tr>
+</table></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1006">line 1006</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".add"><span class="type-signature">(static) </span>add<span class="signature">(w, x, y)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x + y.
+
+<p>
+
+ASSUMES: x and y are positive and have B and B' bits and w can
+store (B + B' + 1) bits. A natural choice in general is to let w
+have (L + L' + 1) limbs if x and y have L and L' limbs, but the
+number of limbs can be arbitrary.
+
+<p>
+
+References: HAC 14.7.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Left term.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Right term.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1557">line 1557</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".cmp"><span class="type-signature">(static) </span>cmp<span class="signature">(x, x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns -1, 0, or 1 depending on if x < y, x == y, or
+x > y.
+
+<p>
+
+ASSUMES: x and y are positive.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Left array.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Right array.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1401">line 1401</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sign of comparison relation.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".copyarray"><span class="type-signature">(static) </span>copyarray<span class="signature">(x, len)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a copy of the given array.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Original array.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>len</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximal length of copy.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1197">line 1197</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Copy of original array.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".div3by2"><span class="type-signature">(static) </span>div3by2<span class="signature">(r, u, d, neg_d, v)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes q and r such that u = q * d + r, where d has
+two limbs/words, d has three limbs/words, and 0 <= r < d.
+
+<p>
+
+ASSUMES: most significant bit of d is set, i.e., we have
+2^(2 * 28)/2 <= d < 2^(2*28).
+
+<p>
+
+References: Algorithm DIV3BY2 in MG.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>r</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Two-word integer that ends up holding the remainder.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>u</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Three-word dividend.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>d</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Normalized divisor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>neg_d</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Negative of d in two's complement.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>v</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">3by2 reciprocal of d.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2532">line 2532</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Integer quotient q = u / d.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".div_qr"><span class="type-signature">(static) </span>div_qr<span class="signature">(q, x, y)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets q and r such that x = qy + r, except that r is
+computed in place of x, so at the end of the execution x is
+identified with r. WARNING! y is cached in its normalized form
+along with its negation and reciprocal. This is pointer based,
+i.e., it is assumed that the contents of y do not change. High
+level routines must accomodate.
+
+<p>
+
+ASSUMES: x and y are positive, x has L words and at least L + 2
+limbs (i.e., two leading unused zero words), y has L' limbs, and q
+has at least L'' = max{L - L', 0} + 1 limbs and will finally hold a
+result with at most L'' words and a leading zero limb.
+
+<p>
+
+References: HAC 14.20.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>q</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Holder of quotient.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Divident and holder of remainder at end of computation.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Divisor.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2623">line 2623</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getbit"><span class="type-signature">(static) </span>getbit<span class="signature">(x, index)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns 1 or 0 depending on if the given bit is set or
+not. Accessing a bit outside the number of limbs returns zero.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array containing bit.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Index of bit.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1361">line 1361</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Bit as a "number" at the given position.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getuh"><span class="type-signature">(static) </span>getuh<span class="signature">(uh, x, i, wordsize)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Extracts the ith block of wordsize bits w from x
+(padding with zeros from the left) and sets uh such that:
+w = uh[0] * 2^uh[1], with uh[0] odd and with uh[0] = uh[1] = 0
+when w = 0.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>uh</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Holds the representation of word.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Contains bits.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>i</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Index of block of bits.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>wordsize</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number of bits in each block.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2929">line 2929</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".hex"><span class="type-signature">(static) </span>hex<span class="signature">(x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a hexadecimal representation of this input
+array by content, i.e., unused bits of each limb are dropped before
+conversion
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of words.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line3282">line 3282</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Hexadecimal string representation of the array.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".iszero"><span class="type-signature">(static) </span>iszero<span class="signature">(x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Checks if the input represents the zero integer.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array to inspect.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1385">line 1385</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True or false depending on if x represents zero or not.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".karatsuba_split"><span class="type-signature">(static) </span>karatsuba_split<span class="signature">(l, h, x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Splits x into two parts l and h of equal and
+predetermined size, i.e., the lengths of the lists l and h
+determines how x is split.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>l</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding most significant words of x.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>h</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding most significant words of x.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Original array.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1954">line 1954</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".lsbit"><span class="type-signature">(static) </span>lsbit<span class="signature">(Array)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns the lowest index of a set bit in the input or
+zero if the input is zero.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Array</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">containing bit.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1316">line 1316</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An index i such that 0 <= i < x.length * 28.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".modpow"><span class="type-signature">(static) </span>modpow<span class="signature">(w, b, e, m)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = b^e mod m.
+
+<p>
+
+ASSUMES: b >= 0, e >= 0, and m > 1, and w, b and m have L limbs.
+
+<p>
+
+References: HAC 14.83.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Basis integer.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Exponent.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>m</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Modulus.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2962">line 2962</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".modpow_naive"><span class="type-signature">(static) </span>modpow_naive<span class="signature">(w, b, e, m)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = b^e mod m.
+
+<p>
+
+ASSUMES: b >= 0, e >= 0, and m > 1, and w, b and m have L limbs.
+
+<p>
+
+References: HAC 14.82.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Basis integer.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Exponent.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>m</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Modulus.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2858">line 2858</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".msbit"><span class="type-signature">(static) </span>msbit<span class="signature">(x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns the index of the most significant bit in x.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array containing bit.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1285">line 1285</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An index i such that 0 <= i < x.length * 28.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".msword"><span class="type-signature">(static) </span>msword<span class="signature">(x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns the array index of the most significant word.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array containing word.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1345">line 1345</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An index i such that 0 <= i < x.length.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".mul"><span class="type-signature">(static) </span>mul<span class="signature">(w, x, y, len)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x * y.
+
+<p>
+
+ASSUMES: x and y are both non-negative with L and L' limbs
+respectively, and that w has at least L + L' limbs.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Left factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Right factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>len</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Actual lengths of inputs. Useful when stored in longer arrays.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2346">line 2346</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".mul_karatsuba"><span class="type-signature">(static) </span>mul_karatsuba<span class="signature">(w, x, y, depth, len)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x * y. The depth parameter determines the
+recursive depth of function calls and must be less than 3.
+
+<p>
+
+ASSUMES: x and y are both non-negative, with L and L' limbs
+respectively, and that w has at least L + L' limbs.
+
+<p>
+
+References: HAC <sectionsign>14.2,
+https://en.wikipedia.org/wiki/Karatsuba_algorithm
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Left factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Right factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>depth</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Recursion depth of the Karatsuba algorithm.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>len</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Actual lengths of inputs. Useful when stored in longer arrays.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2206">line 2206</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".mul_naive"><span class="type-signature">(static) </span>mul_naive<span class="signature">(w, x, y)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x * y.
+
+<p>
+
+ASSUMES: x and y are both non-negative with L and L' limbs
+respectively, and that w has at least L + L' limbs.
+
+<p>
+
+References: HAC 14.12.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Left factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Right factor.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2177">line 2177</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".muladd_loop"><span class="type-signature">(static) </span>muladd_loop<span class="signature">(w, x, start, end, Y, i, c)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Specialized implementation of muladd_loop() for
+28-bit words. This is essentially a naive
+double-precision multiplication computation done in a loop. This
+code is quite sensitive to replacing the constants with variables,
+which explains why it is generated from source with macros. Using
+two's complement for temporary values this can be used as a
+"mulsub_loop" as well.
+
+<p>
+
+Computes (pseudo-code) that due to limited precision and 32-bit
+bound bit operations does not work in JavaScript:
+
+<pre>
+for (var j = start; j < end; j++) {
+    tmp = x[j] * Y + w[i + j] + c;
+    w[i + j] = tmp & 0xfffffff;
+    c = tmp >>> 28;
+}
+return c;
+</pre>
+
+<p>
+
+Note that if Y < 2^(28 + 1), then the output carry c is
+only guaranteed to be smaller than 2^(28 + 1), which does
+not fit into a word.
+
+<p>
+
+ASSUMES: Y < 2^(28 + 1).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding additive terms as input and the output.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array to be scaled.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Start index into x.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>end</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">End index into x.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Scalar.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>i</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Index into w.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>c</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Input carry.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1729">line 1729</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Finally carry.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".neg"><span class="type-signature">(static) </span>neg<span class="signature">(w, x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w to the negative of x in two's complement
+representation using L * 28 bits, where L is the number of
+limbs in w.
+
+<p>
+
+ASSUMES: w has at least as many limbs as x.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Integer.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1622">line 1622</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".newarray"><span class="type-signature">(static) </span>newarray<span class="signature">(len)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Allocates new array of the given length where all
+elements are zero.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>len</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Length of array.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1182">line 1182</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array of the given length where all elements are zero.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".normalize"><span class="type-signature">(static) </span>normalize<span class="signature">(x, mask_top)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Truncates the input to the shortest possible array
+that represents the same absolute value in two's complement, i.e.,
+there is always a leading zero bit.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array to truncate.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mask_top</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Mask for a given wordsize with only most
+significant bit set.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1232">line 1232</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".reciprocal_word"><span class="type-signature">(static) </span>reciprocal_word<span class="signature">(d)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes the 2-by-1 reciprocal of a word d.
+
+<p>
+
+ASSUMES: most significant bit of d is set, i.e., we have
+2^28/2 <= d < 2^28.
+
+<p>
+
+References: Functionally equivalent to RECIPROCAL_WORD in MG.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>d</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Normalized divisor.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2382">line 2382</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    2-by-1 reciprocal of d.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".reciprocal_word_3by2"><span class="type-signature">(static) </span>reciprocal_word_3by2<span class="signature">(d)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Computes the 3-by-2 reciprocal of d, where d has two
+limbs/words.
+
+<p>
+
+ASSUMES: most significant bit of d is set, i.e., we have
+2^(2 * 28)/2 <= d < 2^(2*28).
+
+<p>
+
+References: Algorithm RECIPROCAL_WORD_3BY2 in MG.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>d</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Normalized divisor.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2467">line 2467</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    3-by-2 reciprocal of d.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".resize"><span class="type-signature">(static) </span>resize<span class="signature">(x, len)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Resizes the array to the given number of limbs,
+either by truncating or by adding leading zero words.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Original array.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>len</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">New length.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1214">line 1214</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".set"><span class="type-signature">(static) </span>set<span class="signature">(w, x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x and truncates or pads with zeros as needed
+depending on the number of limbs in w. The x parameter can be an
+array or a "number" < 2^28.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array or "number" holding result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1156">line 1156</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".setone"><span class="type-signature">(static) </span>setone<span class="signature">(x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets x = 1.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array to modify.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1274">line 1274</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".setzero"><span class="type-signature">(static) </span>setzero<span class="signature">(x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets x = 0.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array to modify.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1144">line 1144</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".shiftleft"><span class="type-signature">(static) </span>shiftleft<span class="signature">(x, offset)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Shifts the given number of bits within the array,
+i.e., the allocated space is not expanded.
+
+<p>
+
+ASSUMES: offset >= 0.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array to be shifted.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number of bit positions to shift.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1447">line 1447</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".shiftright"><span class="type-signature">(static) </span>shiftright<span class="signature">(x, offset)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Shifts the given number of bits to the right within
+the allocated space, i.e., the space is not reduced.
+
+<p>
+
+ASSUMES: offset >= 0.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array to be shifted.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number of bit positions to shift.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1502">line 1502</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".square"><span class="type-signature">(static) </span>square<span class="signature">(w, x, len)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x * x.
+
+<p>
+
+ASSUMES: x is non-negative with L and L' limbs respectively, and
+that w has at least L + L' limbs.
+
+<p>
+
+References: HAC 14.16.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>len</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Actual lengths of inputs. Useful when stored in longer arrays.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line2148">line 2148</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".square_karatsuba"><span class="type-signature">(static) </span>square_karatsuba<span class="signature">(w, x, depth)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x * x. The depth parameter determines the
+recursive depth of function calls and must be less than 3.
+
+<p>
+
+ASSUMES: x is non-negative and has L limbs and w has at least 2 * L
+limbs.
+
+<p>
+
+References: HAC <sectionsign>14.2,
+https://en.wikipedia.org/wiki/Karatsuba_algorithm
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>depth</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Recursion depth of the Karatsuba algorithm.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1989">line 1989</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".square_naive"><span class="type-signature">(static) </span>square_naive<span class="signature">(w, x)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x * x.
+
+<p>
+
+ASSUMES: x is non-negative with L and L' limbs respectively, and
+that w has at least L + L' limbs.
+
+<p>
+
+References: HAC 14.16.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Factor.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1888">line 1888</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".sub"><span class="type-signature">(static) </span>sub<span class="signature">(w, x, y)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x - y if x >= y and otherwise it simply
+propagates -1, i.e., 0xfffffff, through the remaining words of
+w.
+
+<p>
+
+ASSUMES: for normal use x >= y, and x and y have B and B' bits and
+w can store B bits. A natural choice is to use L >= L' limbs for x
+and y respectively and L limbs for w, but the number of limbs can
+be arbitrary.
+
+<p>
+
+References: HAC 14.9.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array holding the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Left term.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Right term.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1659">line 1659</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Finally carry.
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".word_mul"><span class="type-signature">(static) </span>word_mul<span class="signature">(w, x, y)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets w = x * y, where w has two limbs and x and y are
+words. This is specialized similarly to muladd_loop and generated
+using the same macro.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>w</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Destination long.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Single word factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Single word factor.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="vjsc-1.1.1.js.html">vjsc-1.1.1.js</a>, <a href="vjsc-1.1.1.js.html#line1825">line 1825</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="verificatum.arithm.ec.EC.html">EC</a></li><li><a href="verificatum.arithm.ec.ECP.html">ECP</a></li><li><a href="verificatum.arithm.ECqPGroup.html">ECqPGroup</a></li><li><a href="verificatum.arithm.ECqPGroupElement.html">ECqPGroupElement</a></li><li><a href="verificatum.arithm.ExpHom.html">ExpHom</a></li><li><a href="verificatum.arithm.FixModPow.html">FixModPow</a></li><li><a href="verificatum.arithm.Hom.html">Hom</a></li><li><a href="verificatum.arithm.LargeInteger.html">LargeInteger</a></li><li><a href="verificatum.arithm.ModPGroup.html">ModPGroup</a></li><li><a href="verificatum.arithm.ModPGroupElement.html">ModPGroupElement</a></li><li><a href="verificatum.arithm.ModPowProd.html">ModPowProd</a></li><li><a href="verificatum.arithm.modpowprod_.html">modpowprod</a></li><li><a href="verificatum.arithm.modpowprodtab.html">modpowprodtab</a></li><li><a href="verificatum.arithm.PField.html">PField</a></li><li><a href="verificatum.arithm.PFieldElement.html">PFieldElement</a></li><li><a href="verificatum.arithm.PGroup.html">PGroup</a></li><li><a href="verificatum.arithm.PGroupElement.html">PGroupElement</a></li><li><a href="verificatum.arithm.PPGroup.html">PPGroup</a></li><li><a href="verificatum.arithm.PPGroupElement.html">PPGroupElement</a></li><li><a href="verificatum.arithm.PPRing.html">PPRing</a></li><li><a href="verificatum.arithm.PPRingElement.html">PPRingElement</a></li><li><a href="verificatum.arithm.PRing.html">PRing</a></li><li><a href="verificatum.arithm.PRingElement.html">PRingElement</a></li><li><a href="verificatum.arithm.sli.SLI.html">SLI</a></li><li><a href="verificatum.crypto.ArithmObject.html">ArithmObject</a></li><li><a href="verificatum.crypto.ElGamal.html">ElGamal</a></li><li><a href="verificatum.crypto.ElGamalZKPoK.html">ElGamalZKPoK</a></li><li><a href="verificatum.crypto.ElGamalZKPoKAdapter.html">ElGamalZKPoKAdapter</a></li><li><a href="verificatum.crypto.ElGamalZKPoKWriteIn.html">ElGamalZKPoKWriteIn</a></li><li><a href="verificatum.crypto.RandomDevice.html">RandomDevice</a></li><li><a href="verificatum.crypto.RandomSource.html">RandomSource</a></li><li><a href="verificatum.crypto.SchnorrProof.html">SchnorrProof</a></li><li><a href="verificatum.crypto.SHA256PRG.html">SHA256PRG</a></li><li><a href="verificatum.crypto.SigmaProof.html">SigmaProof</a></li><li><a href="verificatum.crypto.SigmaProofAnd.html">SigmaProofAnd</a></li><li><a href="verificatum.crypto.SigmaProofOr.html">SigmaProofOr</a></li><li><a href="verificatum.crypto.SigmaProofPara.html">SigmaProofPara</a></li><li><a href="verificatum.crypto.ZKPoK.html">ZKPoK</a></li><li><a href="verificatum.crypto.ZKPoKWriteIn.html">ZKPoKWriteIn</a></li><li><a href="verificatum.crypto.ZKPoKWriteInAdapter.html">ZKPoKWriteInAdapter</a></li><li><a href="verificatum.eio.ByteTree.html">ByteTree</a></li></ul><h3>Namespaces</h3><ul><li><a href="benchmark.html">benchmark</a></li><li><a href="verificatum.html">verificatum</a></li><li><a href="verificatum.arithm.html">arithm</a></li><li><a href="verificatum.arithm.ec.html">ec</a></li><li><a href="verificatum.arithm.li.html">li</a></li><li><a href="verificatum.arithm.sli.html">sli</a></li><li><a href="verificatum.crypto.html">crypto</a></li><li><a href="verificatum.eio.html">eio</a></li><li><a href="verificatum.util.html">util</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Feb 14 2018 03:00:24 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

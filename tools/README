@@ -1,0 +1,17 @@
+
+
+                        TOOLS
+
+
+This library contains a number of scripts that we wrote because
+JavaScript is a bad language and we refuse to write code specific to a
+given platform or framework.
+
+Thus, although these scripts can only be categorized as hacks, they
+rely only on old and well known commands and the end result is a pure
+JavaScript file that uses proper encapsulation and is properly
+indented.
+
+This is a deliberate tradeoff that we have chosen to make. Feel free
+to suggest better methods, but please think through all the aspect of
+your solution.

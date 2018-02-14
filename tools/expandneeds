@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Copyright 2008-2018 Douglas Wikstrom
+#
+# This file is part of Verificatum JavaScript Cryptographic library
+# (VJSC).
+#
+# VJSC is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# VJSC is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General
+# Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
+
+# Extracts the list of dependencies of all files listed in the BASIC
+# parameter and outputs them on EXPANDED.
+
+TMP_DIR=${1}
+ROOT=${2}
+BASIC=${3}
+EXPANDED=${4}
+
+FILES=`cat ${BASIC}`
+
+mkdir -p ${TMP_DIR}
+for FILE in ${FILES};
+do
+    cat ${ROOT}/${FILE} \
+| grep -E "M4_NEEDS|M4_INCLUDEOPT" \
+| sed "s/M4_NEEDS(//" \
+| sed "s/M4_INCLUDEOPT(//" \
+| sed "s/)dnl//" \
+>> ${TMP_DIR}/blowup
+done
+
+cat ${TMP_DIR}/blowup | sort | uniq > ${EXPANDED}

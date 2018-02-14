@@ -1,0 +1,83 @@
+#!/bin/sh
+
+# Copyright 2008-2018 Douglas Wikstrom
+#
+# This file is part of Verificatum JavaScript Cryptographic library
+# (VJSC).
+#
+# VJSC is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# VJSC is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General
+# Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
+
+# Generates an M4 file that defines a wordsize and associated
+# macros. The M4 file is then used to generate the actual JavaScript
+# source from the files in the source directory.
+#
+# Using macros in the code improves readability, but using constants
+# in the code that is executed is much more efficient.
+
+# See the makefile for these parameters.
+MANTISSA=$1
+WORDSIZE=$2
+
+TWO_POW_WORDSIZE_N=`echo "2^${WORDSIZE}" | bc`
+TWO_POW_WORDSIZE=`printf "0x%x" ${TWO_POW_WORDSIZE_N}`
+MASK_ALL_N=`echo "2^${WORDSIZE} - 1" | bc`
+MASK_ALL=`printf "0x%x" ${MASK_ALL_N}`
+MASK_TOP_N=`echo "2^(${WORDSIZE} - 1)" | bc`
+MASK_TOP=`printf "0x%x" ${MASK_TOP_N}`
+MASK_BOT=`printf "0x1"`
+
+HALF_WORDSIZE=`echo "${WORDSIZE} / 2" | bc`
+TWO_POW_HALF_WORDSIZE_N=`echo "2^${HALF_WORDSIZE}" | bc`
+TWO_POW_HALF_WORDSIZE=`printf "0x%x" ${TWO_POW_HALF_WORDSIZE_N}`
+HALF_MASK_ALL_N=`echo "2^${HALF_WORDSIZE} - 1" | bc`
+HALF_MASK_ALL=`printf "0x%x" ${HALF_MASK_ALL_N}`
+
+cat << EOF
+define([[[[[M4_MANTISSA]]]]],[[[[[${MANTISSA}]]]]])dnl
+dnl
+define([[[[[M4_WORDSIZE]]]]],[[[[[${WORDSIZE}]]]]])dnl
+define([[[[[M4_TWO_POW_WORDSIZE]]]]],[[[[[${TWO_POW_WORDSIZE}]]]]])dnl
+define([[[[[M4_MASK_ALL]]]]],[[[[[${MASK_ALL}]]]]])dnl
+define([[[[[M4_MASK_MSB]]]]],[[[[[${MASK_TOP}]]]]])dnl
+define([[[[[M4_MASK_LSB]]]]],[[[[[${MASK_BOT}]]]]])dnl
+dnl
+define([[[[[M4_HALF_WORDSIZE]]]]],[[[[[${HALF_WORDSIZE}]]]]])dnl
+define([[[[[M4_TWO_POW_HALF_WORDSIZE]]]]],[[[[[${TWO_POW_HALF_WORDSIZE}]]]]])dnl
+define([[[[[M4_HALF_MASK_ALL]]]]],[[[[[${HALF_MASK_ALL}]]]]])dnl
+dnl
+dnl Returns the WORDSIZE/2 lower bits of the input word.
+define([[[[[M4_LOW]]]]],[[[[[(\$1 & M4_HALF_MASK_ALL)]]]]])dnl
+dnl
+dnl Returns the high part of the input word (may be more than half).
+define([[[[[M4_HIGH]]]]],[[[[[(\$1 >>> M4_HALF_WORDSIZE)]]]]])dnl
+dnl
+EOF
+
+if test ${WORDSIZE} = 30;
+then
+    cat << EOF
+dnl Additional tweaks needed for 30-bit words.
+define([[[[[M4_LSWORD_C]]]]],[[[[[(\$1 & M4_MASK_ALL)]]]]])dnl
+define([[[[[M4_MSWORD_LONG_C]]]]],[[[[[ + (\$1 >>> M4_WORDSIZE)]]]]])dnl
+EOF
+
+else
+
+    cat << EOF
+dnl Additional tweaks needed for 30-bit words.
+define([[[[[M4_LSWORD_C]]]]],[[[[[\$1]]]]])dnl
+define([[[[[M4_MSWORD_LONG_C]]]]],[[[[[]]]]])dnl
+EOF
+
+fi

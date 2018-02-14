@@ -1,0 +1,75 @@
+#!/bin/sh
+
+# Copyright 2008-2018 Douglas Wikstrom
+#
+# This file is part of Verificatum JavaScript Cryptographic library
+# (VJSC).
+#
+# VJSC is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# VJSC is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General
+# Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
+
+SCRIPTPATH=$(readlink -f "$0")
+SCRIPTDIR=$(dirname "$SCRIPTPATH")
+
+TMP_DIR=${1}
+ROOT=${2}
+RAWENABLEFILE=${3}
+ENABLEFILE=${4}
+TESTENABLEFILE=${5}
+MAKEFILE=${6}
+COMMONFILE=${TMP_DIR}/common
+LEAFFILE=${TMP_DIR}/leaves
+NODEFILE=${TMP_DIR}/nodes
+
+rm -f ${MAKEFILE}
+rm -f ${COMMONFILE}
+rm -f ${LEAFFILE}
+rm -f ${NODEFILE}
+
+${SCRIPTDIR}/getneeds ${TMP_DIR} ${ROOT} ${TMP_DIR}/needfiles
+NEEDFILES=`cat ${TMP_DIR}/needfiles`
+NEEDFILES="${NEEDFILES} verificatum/verificatum.js verificatum/test_verificatum.js"
+
+for NEEDFILE in ${NEEDFILES};
+do
+    ${SCRIPTDIR}/getrule ${ROOT} ${NEEDFILE} ${RAWENABLEFILE} ${COMMONFILE} ${LEAFFILE} ${NODEFILE}
+done
+
+printf "#\n# Main targets.\n" >> ${MAKEFILE}
+printf "#\n# The fact that you must include at least one concrete implementation\n" >> ${MAKEFILE}
+printf "# is not captured here. You must only edit the dependencies.\n#\n" >> ${MAKEFILE}
+
+printf "${ENABLEFILE}: | delete_main_targets verificatum\n" >> ${MAKEFILE}
+printf "\t@cat ${RAWENABLEFILE} | sort > ${ENABLEFILE}\n" >> ${MAKEFILE}
+printf "\t@echo \"Generate enabling M4 macros in ${ENABLEFILE}.\"\n" >> ${MAKEFILE}
+
+printf "${TESTENABLEFILE}: | delete_main_targets test_verificatum\n" >> ${MAKEFILE}
+printf "\t@cat ${RAWENABLEFILE} | sort > ${TESTENABLEFILE}\n" >> ${MAKEFILE}
+printf "\t@echo \"Generate enabling M4 macros in ${TESTENABLEFILE}.\"\n" >> ${MAKEFILE}
+
+printf "#\n# Commonly modified targets.\n#\n" >> ${MAKEFILE}
+cat ${COMMONFILE} | grep -v "test_" | sort | uniq | tr "+" "\n" >> ${MAKEFILE}
+printf "\n" >> ${MAKEFILE}
+cat ${COMMONFILE} | grep "test_" | sort | uniq | tr "+" "\n" >> ${MAKEFILE}
+
+printf "\n#\n# Other modifiable targets:\n#\n" >> ${MAKEFILE}
+cat ${NODEFILE} | grep -v "test_" | sort | uniq | tr "+" "\n" >> ${MAKEFILE}
+printf "\n" >> ${MAKEFILE}
+cat ${NODEFILE} | grep "test_" | sort | uniq | tr "+" "\n" >> ${MAKEFILE}
+
+printf "\n#\n# DO NOT EDIT THE FOLLOWING ENTRIES!\n#\n" >> ${MAKEFILE}
+cat ${LEAFFILE} | sort | uniq | tr "+" "\n\n" >> ${MAKEFILE}
+
+printf "#\n# This is a hack to get something more robust than .PHONY.\n#\n" >> ${MAKEFILE}
+printf "delete_main_targets:\n" >> ${MAKEFILE}
+printf "\t@rm -f ${RAWENABLEFILE}\n" >> ${MAKEFILE}

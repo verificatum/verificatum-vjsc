@@ -1,0 +1,37 @@
+{
+    "browser": true,
+    "node": true,
+    "-W032": false,        // Distinguishing between functions and
+                           // variables assigned functions when it
+                           // comes to semi-colons is wrong. It is
+                           // more important to have consistently
+                           // looking code.
+    "bitwise": false,      // We obviously use bitwise operators in
+                           // arithmetic code.
+    "curly": true,
+    "eqeqeq": true,
+    "esversion": 3,
+    "freeze": true,
+    "forin": true,
+    "funcscope": true,
+    "futurehostile": true,
+    "latedef": true,
+    "maxcomplexity": 12,
+    "maxdepth": 4,
+    "maxerr": 4000,
+    "maxparams": false,     // We need "many" parameters in some
+                            // places and handle this correctly
+                            // anyway.
+    "maxstatements": false, // We use encapsulation with functions and
+                            // some of our arithmetic functions need
+                            // many statements.
+    "noarg": true,
+    "nonbsp": true,
+    "nonew": true,
+    "notypeof": true,
+    "singleGroups": true,
+    "strict": "implied",
+    "undef": true,
+    "unused": true,
+    "varstmt": false        // It is too early to switch to let and const.
+}

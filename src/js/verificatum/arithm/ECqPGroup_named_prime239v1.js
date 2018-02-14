@@ -1,0 +1,8 @@
+"prime239v1":
+["7fffffffffffffffffffffff7fffffffffff8000000000007fffffffffff",
+ "7fffffffffffffffffffffff7fffffffffff8000000000007ffffffffffc",
+ "6b016c3bdcf18941d0d654921475ca71a9db2fb27d1d37796185c2942c0a",
+ "ffa963cdca8816ccc33b8642bedf905c3d358573d3f27fbbd3b3cb9aaaf",
+ "7debe8e4e90a5dae6e4054ca530ba04654b36818ce226b39fccb7b02f1ae",
+ "7fffffffffffffffffffffff7fffff9e5e9a9f5d9071fbd1522688909d0b",
+ "1"],
