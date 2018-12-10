@@ -1,9 +1,6 @@
+# Verificatum JavaScript Cryptography Library (VJSC)
 
-
-          VERIFICATUM JAVASCRIPT CRYPTOGRAPHY LIBRARY (VJSC)
-
-              (DO NOT EDIT! Generated file, see Makefile.)
-
+*DO NOT EDIT! This file is generated. See Makefile.*
 
 This library provides the cryptographic routines needed by an
 electronic voting client implemented in Javascript. It is documented
@@ -24,58 +21,58 @@ software. Please read the warnings below.
 
 This library consists of a stack of the following modules:
 
- * verificatum.arithm.li is a raw multi-precision integer
+ * **verificatum.arithm.li** is a raw multi-precision integer
    arithmetic module. This is essentially optimized in only two
    ways; memory allocation must be handled manually, and the
    inner-most so-called "muladd" loop is optimized. Apart from this,
    it is a relatively straightforward implementation of school book
    arithmetic. References are provided for all non-trivial algorithms.
 
- * verificatum.arithm.sli provides signed multi-precision
-   integer arithmetic. This is a thin layer on top of 
-   verificatum.arithm.li along with a few extra basic routines are
-   are easier to implement with signed arithmetic than without,
+ * **verificatum.arithm.sli** provides signed multi-precision
+   integer arithmetic. This is a thin layer on top of
+   **verificatum.arithm.li** along with a few extra basic routines
+   are are easier to implement with signed arithmetic than without,
    e.g., the extended binary greatest common divisor algorithm.
 
- * verificatum.arithm.LargeInteger provides automatic memory
-   allocation on top of verificatum.arithm.li and 
-   verificatum.arithm.sli.
+ * **verificatum.arithm.LargeInteger** provides automatic memory
+   allocation on top of **verificatum.arithm.li** and
+   **verificatum.arithm.sli**.
 
- * verificatum.arithm.PGroup provides abstract classes that
+ * **verificatum.arithm.PGroup** provides abstract classes that
    capture groups of prime order.
 
- * verificatum.arithm.ModPGroup provides prime order
-   subgroups modulo primes. This is a wrapper of 
-   verificatum.arithm.LargeInteger using modular arithmetic that
-   provides additional utility routines.
+ * **verificatum.arithm.ModPGroup** provides prime order
+   subgroups modulo primes. This is a wrapper of
+   **verificatum.arithm.LargeInteger** using modular arithmetic
+   that provides additional utility routines.
 
- * verificatum.arithm.ec provides a raw implementation of
+ * **verificatum.arithm.ec** provides a raw implementation of
    elliptic curves over prime order fields of Weierstrass form using
    a variant of Jacobi coordinates. This uses the standard formulas,
-   but on top of verificatum.arithm.sli (not 
-   verificatum.arithm.LargeInteger).
+   but on top of **verificatum.arithm.sli**
+   (not **verificatum.arithm.LargeInteger**).
 
- * verificatum.arithm.ECqPGroup provides elliptic curve
+ * **verificatum.arithm.ECqPGroup** provides elliptic curve
    groups over prime order fields of Weierstrass form using a
    variant of Jacobi coordinates. In particular the standard curves
-   of this form. This is a wrapper of verificatum.arithm.ec
+   of this form. This is a wrapper of **verificatum.arithm.ec**
    that provides automatic memory allocation and additional utility
    routines.
 
- * verificatum.arithm.PField implements a prime order field
+ * **verificatum.arithm.PField** implements a prime order field
    that may be thought of as the "exponents of a group". This is a
-   wrapper of verificatum.arithm.LargeInteger, where computations
+   wrapper of **verificatum.arithm.LargeInteger**, where computations
    take place modulo the order of the group. It also provides additional
    utility routines.
 
- * verificatum.arithm.PPGroup implements a product group
+ * **verificatum.arithm.PPGroup** implements a product group
    that combines multiple groups into one to simplify computations
    over multiple group elements. The resulting group elements
    are basically glorified lists with routines that iterate over the
    individual elements. It generalizes both the arithmetic and
    utility functions to product groups.
 
- * verificatum.arithm.PPRing implements the product ring of
+ * **verificatum.arithm.PPRing** implements the product ring of
    a product group. We may think of this as the "ring of
    exponents". Similarly to product groups its elements are
    glorified lists of field elements along with arithmetic and
@@ -88,28 +85,23 @@ functions. Static variables are re-sized as needed, but for our
 application this rarely happens, so effectively we have automatic
 light-weight memory allocation.
 
-The classes ModPowProd, ModPGroup, FixModPow, and ECqPGroup can be
-optionally included in the library. See BUILDING and Makefile for more
-information. Testing if a class is included is done using "typeof",
-e.g., the following is a boolean that is true if and only if the class
-ECqPGroup was included in the build.
+Some classes can be optionally included in the library. See
+`BUILDING.md` and `Makefile` for more
+information. Testing if a class is included is done using
+`typeof`, e.g., the following is a
+boolean that is true if and only if the class `ECqPGroup` was
+included in the build.
 
-typeof verificatum.arithm.ECqPGroup !== "undefined"
+`typeof verificatum.arithm.ECqPGroup !== "undefined"`
 
-The function verificatum.util.ofType is robust as long as the second
-parameter is either a string literal or a type. To keep things consistent,
-we only use typedef variable === "undefined" when checking for
-undefined parameters to functions.
+The function `verificatum.util.ofType` is robust as
+long as the second parameter is either a string literal or a type.
+To keep things consistent, we only use
+`typedef variable === "undefined"` when checking for
+`undefined` parameters to functions.
 
-   ##########################################################
-   ##################### WARNING! ###########################
-   ##########################################################
-   #                                                        #
-   # WARNING! Please read the following instructions        #
-   # carefully. Failure to do so may result in a completely #
-   # insecure installation.                                 #
-   #                                                        #
-   ##########################################################
+**WARNING! Please read the following instructions carefully.
+Failure to do so may result in a completely insecure installation.**
 
 You should NOT use this library unless you have verified the following:
 
@@ -120,24 +112,17 @@ You should NOT use this library unless you have verified the following:
    since there are simply too many and they are constantly evolving.
 
  * Verify that the random source accessible from
-   verificatum.crypto.RandomDevice is secure.
+   `verificatum.crypto.RandomDevice` is secure.
    A number of natural approaches are possible if this is not the
    case. We avoid all of these until we have a clear reason, since
    they bring additional complexity and potential incompatibilities
    and security issues in themselves.
 
-   ##########################################################
-   ##################### WARNING! ###########################
-   ##########################################################
-   #                                                        #
-   # WARNING! Please read the following instructions        #
-   # carefully. Failure to do so may result in a completely #
-   # insecure installation.                                 #
-   #                                                        #
-   ##########################################################
+**WARNING! Please read the following instructions carefully.
+Failure to do so may result in a completely insecure installation.**
 
-This library DOES NOT PROTECT AGAINST SIDE CHANNEL
-ATTACKS. Thus, this is NOT a general purpose cryptographic
+This library **does not protect against side channel
+attacks**. Thus, this is **not** a general purpose cryptographic
 library, but it is secure in electronic voting clients because of two
 reasons:
 
@@ -150,8 +135,8 @@ reasons:
    adversary can not influence when an encryption takes place with
    sufficient granularity to execute repeated attacks.
 
-This should be compared with, e.g., a TLS server that handles requests
-from a potential adversary using a fixed secret key.
+This should be compared with, e.g., a TLS server that handles repeated
+requests from a potential adversary using a fixed secret key.
 
 Our software handles special curve points correctly and all inputs are
 verified to belong to the right domain before processing. This turns
@@ -160,22 +145,15 @@ ciphertexts formed using this library.
 
 However, we naturally welcome the inclusion of non-NIST curves that
 are more resistant against side channel attacks. For more information
-we recommend Daniel J. Bernstein and Tanja Lange. SafeCurves:
-choosing safe curves for elliptic-curve cryptography, accessed 1
-December 2014.
+we recommend, e.g., Daniel J. Bernstein and Tanja Lange.
+*SafeCurves: choosing safe curves for elliptic-curve cryptography*,
+(accessed 1 December 2014).
 
-   ##########################################################
-   ##################### WARNING! ###########################
-   ##########################################################
-   #                                                        #
-   # WARNING! Please read the following instructions        #
-   # carefully. Failure to do so may result in a completely #
-   # insecure installation.                                 #
-   #                                                        #
-   ##########################################################
+**WARNING! Please read the following instructions carefully.
+Failure to do so may result in a completely insecure installation.**
 
-This library DOES NOT ON ITS OWN PROTECT AGAINST ATTACKS AGAINST
-THE BROWSER OR THE OPERATING SYSTEM. A short and non-exhaustive
+This library **does not on its own protect against attacks against
+the browser or the operating system**. A short and non-exhaustive
 list of threats includes:
 
  * Virus that corrupts the client as a whole.
