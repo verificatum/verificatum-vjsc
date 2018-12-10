@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU Affero General Public
 // License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
 
+/* eslint-disable */
 ModPGroup.named_groups = {
 
     // RFC 2409, RFC 2412, RFC 3526
@@ -29,3 +30,4 @@ ModPGroup.named_groups = {
     M4_INCLUDEOPT(verificatum/arithm/ModPGroup_named_modp6144.js)dnl
     M4_INCLUDEOPT(verificatum/arithm/ModPGroup_named_modp8192.js)dnl
 };
+/* eslint-enable */

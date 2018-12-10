@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU Affero General Public
 // License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
 
+/* eslint-disable */
 ECqPGroup.named_curves = {
 
     // NIST
@@ -51,5 +52,5 @@ ECqPGroup.named_curves = {
     M4_INCLUDEOPT(verificatum/arithm/ECqPGroup_named_P-256.js)dnl
     M4_INCLUDEOPT(verificatum/arithm/ECqPGroup_named_P-384.js)dnl
     M4_INCLUDEOPT(verificatum/arithm/ECqPGroup_named_P-521.js)dnl
-
 };
+/* eslint-enable */

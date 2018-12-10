@@ -34,7 +34,7 @@ ArithmObject.prototype = Object.create(Object.prototype);
 ArithmObject.prototype.constructor = ArithmObject;
 
 ArithmObject.prototype.getName = function () {
-    var regex = /function\s?([^\(]{1,})\(/;
+    var regex = /function\s?([^(]{1,})\(/;
     var results = regex.exec(this.constructor.toString());
     return results && results.length > 1 ? results[1] : "";
 };

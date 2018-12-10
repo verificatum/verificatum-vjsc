@@ -35,28 +35,28 @@
  *      arithmetic. References are provided for all non-trivial algorithms.
  *
  * <li> {@link verificatum.arithm.sli} provides signed multi-precision
- *      integer arithmetic. This is a thin layer on top of {@link
- *      verificatum.arithm.li} along with a few extra basic routines are
- *      are easier to implement with signed arithmetic than without,
+ *      integer arithmetic. This is a thin layer on top of
+ *      {@link verificatum.arithm.li} along with a few extra basic routines
+ *      are are easier to implement with signed arithmetic than without,
  *      e.g., the extended binary greatest common divisor algorithm.
  *
  * <li> {@link verificatum.arithm.LargeInteger} provides automatic memory
- *      allocation on top of {@link verificatum.arithm.li} and {@link
- *      verificatum.arithm.sli}.
+ *      allocation on top of {@link verificatum.arithm.li} and
+ *      {@link verificatum.arithm.sli}.
  *
  * <li> {@link verificatum.arithm.PGroup} provides abstract classes that
  *      capture groups of prime order.
  *
  * <li> {@link verificatum.arithm.ModPGroup} provides prime order
- *      subgroups modulo primes. This is a wrapper of {@link
- *      verificatum.arithm.LargeInteger} using modular arithmetic that
- *      provides additional utility routines.
+ *      subgroups modulo primes. This is a wrapper of
+ *      {@link verificatum.arithm.LargeInteger} using modular arithmetic
+ *      that provides additional utility routines.
  *
  * <li> {@link verificatum.arithm.ec} provides a raw implementation of
  *      elliptic curves over prime order fields of Weierstrass form using
  *      a variant of Jacobi coordinates. This uses the standard formulas,
- *      but on top of {@link verificatum.arithm.sli} (not {@link
- *      verificatum.arithm.LargeInteger}).
+ *      but on top of {@link verificatum.arithm.sli}
+ *      (not {@link verificatum.arithm.LargeInteger}).
  *
  * <li> {@link verificatum.arithm.ECqPGroup} provides elliptic curve
  *      groups over prime order fields of Weierstrass form using a
@@ -95,36 +95,31 @@
  *
  * <p>
  *
- * The classes ModPowProd, ModPGroup, FixModPow, and ECqPGroup can be
- * optionally included in the library. See BUILDING and Makefile for more
- * information. Testing if a class is included is done using "typeof",
- * e.g., the following is a boolean that is true if and only if the class
- * ECqPGroup was included in the build.
+ * Some classes can be optionally included in the library. See
+ * <code>BUILDING.md</code> and <code>Makefile</code> for more
+ * information. Testing if a class is included is done using
+ * <code>typeof</code>, e.g., the following is a
+ * boolean that is true if and only if the class `ECqPGroup` was
+ * included in the build.
  *
  * <p>
  *
- * typeof verificatum.arithm.ECqPGroup !== "undefined"
+ * <code>typeof verificatum.arithm.ECqPGroup !== "undefined"</code>
  *
  * <p>
  *
- * The function verificatum.util.ofType is robust as long as the second
- * parameter is either a string literal or a type. To keep things consistent,
- * we only use <code>typedef variable === "undefined"</code> when checking for
- * undefined parameters to functions.
+ * The function <code>verificatum.util.ofType</code> is robust as
+ * long as the second parameter is either a string literal or a type.
+ * To keep things consistent, we only use
+ * <code>typedef variable === "undefined"</code> when checking for
+ * <code>undefined</code> parameters to functions.
  *
- * <pre>
+ * <p>
  *
- *    ##########################################################
- *    ##################### WARNING! ###########################
- *    ##########################################################
- *    #                                                        #
- *    # WARNING! Please read the following instructions        #
- *    # carefully. Failure to do so may result in a completely #
- *    # insecure installation.                                 #
- *    #                                                        #
- *    ##########################################################
+ * <b>WARNING! Please read the following instructions carefully.
+ * Failure to do so may result in a completely insecure installation.</b>
  *
- * </pre>
+ * <p>
  *
  * You should NOT use this library unless you have verified the following:
  *
@@ -137,7 +132,7 @@
  *      since there are simply too many and they are constantly evolving.
  *
  * <li> Verify that the random source accessible from
- *      verificatum.crypto.RandomDevice is secure.
+ *      <code>verificatum.crypto.RandomDevice</code> is secure.
  *      A number of natural approaches are possible if this is not the
  *      case. We avoid all of these until we have a clear reason, since
  *      they bring additional complexity and potential incompatibilities
@@ -145,22 +140,15 @@
  *
  * </ol>
  *
- * <pre>
+ * <p>
  *
- *    ##########################################################
- *    ##################### WARNING! ###########################
- *    ##########################################################
- *    #                                                        #
- *    # WARNING! Please read the following instructions        #
- *    # carefully. Failure to do so may result in a completely #
- *    # insecure installation.                                 #
- *    #                                                        #
- *    ##########################################################
+ * <b>WARNING! Please read the following instructions carefully.
+ * Failure to do so may result in a completely insecure installation.</b>
  *
- * </pre>
+ * <p>
  *
- * This library <b>DOES NOT PROTECT AGAINST SIDE CHANNEL
- * ATTACKS</b>. Thus, this is NOT a general purpose cryptographic
+ * This library <b>does not protect against side channel
+ * attacks</b>. Thus, this is <b>not</b> a general purpose cryptographic
  * library, but it is secure in electronic voting clients because of two
  * reasons:
  *
@@ -177,8 +165,8 @@
  *
  * </ol>
  *
- * This should be compared with, e.g., a TLS server that handles requests
- * from a potential adversary using a fixed secret key.
+ * This should be compared with, e.g., a TLS server that handles repeated
+ * requests from a potential adversary using a fixed secret key.
  *
  * <p>
  *
@@ -191,26 +179,19 @@
  *
  * However, we naturally welcome the inclusion of non-NIST curves that
  * are more resistant against side channel attacks. For more information
- * we recommend <em>Daniel J. Bernstein and Tanja Lange. SafeCurves:
- * choosing safe curves for elliptic-curve cryptography, accessed 1
- * December 2014.</em>
+ * we recommend, e.g., Daniel J. Bernstein and Tanja Lange.
+ * <em>SafeCurves: choosing safe curves for elliptic-curve cryptography</em>,
+ * (accessed 1 December 2014).
  *
- * <pre>
+ * <p>
  *
- *    ##########################################################
- *    ##################### WARNING! ###########################
- *    ##########################################################
- *    #                                                        #
- *    # WARNING! Please read the following instructions        #
- *    # carefully. Failure to do so may result in a completely #
- *    # insecure installation.                                 #
- *    #                                                        #
- *    ##########################################################
+ * <b>WARNING! Please read the following instructions carefully.
+ * Failure to do so may result in a completely insecure installation.</b>
  *
- * </pre>
+ * <p>
  *
- * This library <b>DOES NOT ON ITS OWN PROTECT AGAINST ATTACKS AGAINST
- * THE BROWSER OR THE OPERATING SYSTEM</b>. A short and non-exhaustive
+ * This library <b>does not on its own protect against attacks against
+ * the browser or the operating system</b>. A short and non-exhaustive
  * list of threats includes:
  *
  * <ol>

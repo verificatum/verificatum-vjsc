@@ -96,7 +96,7 @@ module.exports = {
                                               // to the literature.
         "id-match": "error",
         "indent": [
-            "error",
+            "off",
             4
         ],
         "init-declarations": "off",
@@ -191,7 +191,9 @@ module.exports = {
                                               // numbers.
         "no-mixed-operators": "off",          // Operators have precedence
         "no-mixed-requires": "error",         // for a reason.
-        "no-multi-spaces": "error",
+
+        "no-multi-spaces": "off",             // This handles comments
+	                                      // incorrectly.
         "no-multi-str": "error",
         "no-multiple-empty-lines": "error",
         "no-negated-condition": "error",
