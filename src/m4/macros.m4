@@ -1,20 +1,27 @@
-dnl Copyright 2008-2018 Douglas Wikstrom
+dnl Copyright 2008-2019 Douglas Wikstrom
 dnl
 dnl This file is part of Verificatum JavaScript Cryptographic library
 dnl (VJSC).
 dnl
-dnl VJSC is free software: you can redistribute it and/or modify it
-dnl under the terms of the GNU Affero General Public License as
-dnl published by the Free Software Foundation, either version 3 of the
-dnl License, or (at your option) any later version.
+dnl Permission is hereby granted, free of charge, to any person
+dnl obtaining a copy of this software and associated documentation
+dnl files (the "Software"), to deal in the Software without
+dnl restriction, including without limitation the rights to use, copy,
+dnl modify, merge, publish, distribute, sublicense, and/or sell copies
+dnl of the Software, and to permit persons to whom the Software is
+dnl furnished to do so, subject to the following conditions:
 dnl
-dnl VJSC is distributed in the hope that it will be useful, but WITHOUT
-dnl ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-dnl or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General
-dnl Public License for more details.
+dnl The above copyright notice and this permission notice shall be
+dnl included in all copies or substantial portions of the Software.
 dnl
-dnl You should have received a copy of the GNU Affero General Public
-dnl License along with VJSC. If not, see <http://www.gnu.org/licenses/>.
+dnl THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+dnl EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+dnl MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+dnl NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+dnl BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+dnl ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+dnl CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+dnl SOFTWARE.
 dnl
 changequote([[[[[,]]]]])dnl
 dnl
