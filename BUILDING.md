@@ -8,7 +8,7 @@ This software can built using:
 
         make <target>
 
-where <target> is one of:
+using one of:
 
 | Target      | Description
 |-------------|---------------------------------------------------
@@ -19,7 +19,7 @@ where <target> is one of:
 | bench-vjsc  | HTML files for running benchmarks in a browser.
 
 The resulting libraries ends up in `js/` and are named using the
-prefix `vjsc-`, e.g., `vjsc-<VERSION>.js`. The the API ends up in
+prefix `vjsc-`, e.g., `vjsc-<VERSION>.js`. The API ends up in
 `api-vjsc` and the benchmark ends up in `bench-vjsc`. Tar-balls are
 also built.
 
@@ -88,8 +88,9 @@ with as strong encapsulation as possible. Thus, we have opted on
 generating a *single* file. It would be horrible to develop software
 in a single file of course, so we needed a mechanism for including
 files. We also needed users to be able to remove modules, but in a way
-that results in a static single file. There is no proper include
-system for JavaScript, so we built minimal tools.
+that results in a static single file. There was no proper include
+system for JavaScript at the time this was implemented, so we built
+a minimal one using M4.
 
 We are aware that particular "frameworks" have inclusion and packaging
 mechanisms. We deliberately choose to not use them because they add

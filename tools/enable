@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2008-2019 Douglas Wikstrom
+# Copyright 2008-2020 Douglas Wikstrom
 #
 # This file is part of Verificatum JavaScript Cryptographic library
 # (VJSC).

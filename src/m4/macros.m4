@@ -1,4 +1,4 @@
-dnl Copyright 2008-2019 Douglas Wikstrom
+dnl Copyright 2008-2020 Douglas Wikstrom
 dnl
 dnl This file is part of Verificatum JavaScript Cryptographic library
 dnl (VJSC).
