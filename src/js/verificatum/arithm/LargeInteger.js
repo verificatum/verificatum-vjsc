@@ -35,8 +35,7 @@
  * @param first Can be: (1) sign of explicit integer, (2) bit length
  * of random integer, (3) byte array containing the bits of an
  * integer, (4) hexadecimal representation of integer, (5) byte tree
- * representation of integer, or (6) Javascript "number"
- * representation of integer.
+ * representation of integer, or (6) the initial size for a 0-filled array.
  * @param second Can be: (1) value of explicit integer, (2) or source
  * of randomness, or in cases (3)-(6) it must be empty.
  * @class
@@ -54,6 +53,11 @@ function LargeInteger(first, second) {
         // integer and second is the array representing the integer.
         if (util.ofType(second, "array")) {
 
+            for (let i = 0; i < second.length; i++) {
+                if (second[i] >= 2 << li.WORDSIZE) {
+                    throw Error("number too large in array");
+                }
+            }
             sign = first;
             value = second;
 
