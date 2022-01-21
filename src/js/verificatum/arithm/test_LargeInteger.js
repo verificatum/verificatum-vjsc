@@ -95,7 +95,7 @@ M4_INCLUDE(verificatum/arithm/test_primes.js)dnl
         var end = test.start([prefix + " (constructors)"], testTime);
 
         try {
-            var l = new arithm.LargeInteger(1, [ 1 << 29 ]);
+            var l = new arithm.LargeInteger(1, [ 1 << (arithm.li.WORDSIZE + 1) ]);
             test.error("(sign, array) should fail on values too large");
         } catch (e) {
             if (e.message !== "number too large in array") {
