@@ -53,7 +53,7 @@ M4_INCLUDE(verificatum/arithm/test_primes.js)dnl
             || !ONE.mul(ONE).equals(ONE)) {
             test.error("Ones and zeros don't multiply!");
         }
-
+        
         var i = 1;
         while (!test.done(end)) {
 
@@ -90,6 +90,21 @@ M4_INCLUDE(verificatum/arithm/test_primes.js)dnl
         }
         test.end();
     };
+
+    var constructors = function (testTime) {
+        var end = test.start([prefix + " (constructors)"], testTime);
+
+        try {
+            var l = new arithm.LargeInteger(1, [ 1 << (arithm.li.WORDSIZE + 1) ]);
+            test.error("(sign, array) should fail on values too large");
+        } catch (e) {
+            if (e.message !== "number too large in array") {
+                console.log(e);
+                test.error("error does not match expected");
+            }
+        }
+        test.end();
+    }
 
     var addition_commutativity = function (testTime) {
         var e;
@@ -255,6 +270,20 @@ M4_INCLUDE(verificatum/arithm/test_primes.js)dnl
                 }
             }
             i = ((i + 1) % s) + 1;
+        }
+        test.end();
+    };
+
+    var square_then_mod = function (testTime) {
+        var end = test.start([prefix + " (square then mod)"], testTime);
+
+        var a = new arithm.LargeInteger("1000000");
+        var m = new arithm.LargeInteger("fffffff");
+
+        var b = a.square().mod(m);
+
+        if (b.length != 1) {
+            test.error("length is not computed correctly");
         }
         test.end();
     };
@@ -760,9 +789,11 @@ M4_INCLUDE(verificatum/arithm/test_primes.js)dnl
 
     var run = function (testTime) {
         identities(testTime);
+        constructors(testTime);
         addition_commutativity(testTime);
         addition_associativity(testTime);
         squaring(testTime);
+        square_then_mod(testTime);
         multiplication_commutativity(testTime);
         multiplication_associativity(testTime);
         distributivity(testTime);

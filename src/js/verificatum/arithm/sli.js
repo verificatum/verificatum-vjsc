@@ -89,7 +89,7 @@ var sli = (function () {
      */
     var normalize = function (x, mask_top) {
         li.normalize(x.value, mask_top);
-        this.length = x.value.length;
+        x.length = x.value.length;
     };
 
     /**

@@ -63,3 +63,4 @@ M4_INCLUDEOPT(verificatum/benchmark/benchmark.js)dnl
 M4_EXPOPT(verificatum/benchmark/benchmark.js,benchmark)
     };
 })();
+
